@@ -19,14 +19,6 @@
 - [ ] Unit tests in `tests/`
 - [ ] Other:
 
-## 📂 Affected Files / Modules
-
-<!-- Optional but useful to quickly see what areas were touched -->
-
-- `pager.py`
-- `storage.py`
-- ...
-
 ## 📝 Notes (Optional)
 
 <!-- Design decisions, performance thoughts, potential issues to revisit -->
