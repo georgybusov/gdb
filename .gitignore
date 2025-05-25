@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+gdb_env/
+.vscode/    # Visual Studio Code
+*.iml       # IntelliJ IDEA project files
