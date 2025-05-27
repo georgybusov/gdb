@@ -1,5 +1,7 @@
+from constants import PAGE_SIZE
+
 class Page:
-    def __init__(self, page_id: int, max_size: int = 4096, data: bytes = None):
+    def __init__(self, page_id: int, max_size: int = PAGE_SIZE, data: bytes = None):
         #page instance is for storing values 
         self.values = [] 
         #all page instances need to be identically sized
@@ -44,7 +46,7 @@ class Page:
         if row_id >= 0 and row_id < len(self.values) and row_id not in self.deleted_indices:
             return self.values[row_id]
         else:
-            raise IndexError(f"Row id {row_id} not on {self.page_id} or deleted")
+            raise IndexError(f"Row id {row_id} not in {self.page_id} or deleted")
 
     #delete a value at a given row id (keep the row but make value contents null)
     def delete_value(self, row_id: int):
@@ -128,6 +130,6 @@ class Page:
 
     # Create a page from raw bytes leveraging the init and _load_from_bytes methods
     @staticmethod
-    def from_bytes(page_id: int, raw: bytes, max_size: int = 4096) -> "Page":
+    def from_bytes(page_id: int, raw: bytes, max_size: int = PAGE_SIZE) -> "Page":
         page = Page(page_id=page_id, max_size=max_size, data=raw)
         return page
