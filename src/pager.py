@@ -22,6 +22,9 @@ class Pager:
         else:
                 self.file = open(self.file_path,'r+b') 
 
+        # find how many pages are currently in the file
+        self.file.seek(0, os.SEEK_END)
+        self.num_pages = self.file.tell() // PAGE_SIZE
             
             
     
@@ -43,3 +46,26 @@ class Pager:
             # store it in cache and return it
             self.cache[page_id] = page
             return page
+        
+
+
+    #write page to file
+    def write_page(self,page_id):
+        # is the page in cache?
+        if page_id in self.cache:
+            page = self.cache[page_id]
+        else:
+            page = self.get_page(page_id)
+        # check if the page is dirty
+        if page in self.dirty_pages:
+            # Serialize it (prefix and value to bytes)
+            serialized_page = page.to_bytes()
+        # calculate where in the file it should be written based on page id and move cursor there
+            offset = page_id* PAGE_SIZE
+            self.file.seek(offset)
+            # write it to disk
+            self.file.write(serialized_page)
+            # record it as dirty as it now has capacity in the disk
+            self.file.flush()
+            self.dirty_pages.remove(page_id)
+        
