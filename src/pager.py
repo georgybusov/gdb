@@ -2,7 +2,6 @@ import os
 from constants import PAGE_SIZE
 from storage import Page
 
-# 1. File Backed Storage
 # Pager should handle a single file on disk where all pages are stored.
 
 class Pager:
