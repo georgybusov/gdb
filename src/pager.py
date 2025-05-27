@@ -64,7 +64,7 @@ class Pager:
             self.file.seek(offset)
             # write it to disk
             self.file.write(serialized_page)
-            # update number of pages if writing beyond current number of them
+            # need to add number of pages according to page_id not count of page_id
             if page_id >= self.num_pages:
                 self.num_pages = page_id + 1
             # flush the file writing buffer

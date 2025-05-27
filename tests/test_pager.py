@@ -48,3 +48,33 @@ def test_write_page_to_disk():
     # confirm that read_data is the same as the cache you just wrote to it 
     # assert that the page is now in the file
     assert page.to_bytes() == read_data
+
+
+# page_ids need to be incremented otherwise they don't get created
+def test_number_of_pages_created():
+
+    test_file = "test_data.db"
+    # create a pager
+    pager = Pager(test_file)
+
+    # Page 0 with some data
+    page0 = Page(page_id=0)
+    # add value and push it to cache and add to dirty list
+    page0.add_value(b'hello')
+    pager.cache[0] = page0
+    pager.dirty_pages.add(0)
+    pager.write_page(0)
+
+    # skip pages 1 and 2 to test if they still get created
+    page3 = Page(page_id=3)
+    # add value and push it to cache and add to dirty list
+    page3.add_value(b'bye')
+    pager.cache[3] = page3
+    pager.dirty_pages.add(3)
+    pager.write_page(3)
+
+    # File size should be at least 4 * PAGE_SIZE bytes
+    expected_file_size = (3 + 1) * PAGE_SIZE
+    actual_file_size = os.path.getsize(test_file)
+
+    assert actual_file_size >= expected_file_size
